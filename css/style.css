@@ -1,0 +1,31 @@
+input, button{
+	border:solid black 2px;
+	border-radius:10px;
+	margin:5px;
+	padding:5px;
+}
+
+#container{
+	width:900px;
+	position:relative;
+	margin:auto auto;
+	text-align:center;
+	margin-top:400px;
+}
+
+#status{
+	text-decoration:underline;
+	color:blue;	
+}
+
+#submit{
+	background-color:#E51111;
+	color:white;
+}
+
+#fbSignup{
+	background-color:#3b5998;
+	color:white;
+}
+
+

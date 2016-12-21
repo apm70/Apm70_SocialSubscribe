@@ -1,0 +1,90 @@
+<!doctype HTML>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title>Subscribe</title>
+	<link rel="stylesheet" href="css/style.css">
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
+	<script type="text/javascript">
+		function formSignup(data) {
+			$.get("MailChimp.php?usermail="+data,function(response){
+				var parsed = JSON.parse(response);
+				$('#status').html(parsed.message);
+			});
+		}
+		
+		$(document).ready(function(){
+			$("#directsub").on("submit",function(e){
+				e.preventDefault();
+				var useremail = $('#usermail').val();
+				ValidateEmail(usermail);	
+		    });
+		});
+
+		function ValidateEmail(userEntry){  
+			var mailformat = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;  
+			if(userEntry.value.match(mailformat)){  
+				formSignup(userEntry.value);
+			}else{  
+			$('#status').html("You enetered incorrect email.");
+			};  
+		};  
+	</script>
+</head>
+
+
+<body>
+	<script>
+		var fbAppId = "insert your facebook app id here";
+	    window.fbAsyncInit = function() {
+		FB.init({
+		  appId      : fbAppId,
+		  xfbml      : true,
+		  version    : 'v2.8'
+		});
+
+		FB.AppEvents.logPageView();
+	    };
+
+	    (function(d, s, id){
+		 var js, fjs = d.getElementsByTagName(s)[0];
+		 if (d.getElementById(id)) {return;}
+		 js = d.createElement(s); js.id = id;
+		 js.src = "//connect.facebook.net/en_US/sdk.js";
+		 fjs.parentNode.insertBefore(js, fjs);
+	    }(document, 'script', 'facebook-jssdk'));
+	
+			$(document).ready(function(){
+				$("#fbSignup").on("click",function(){
+				    FB.login(function(response){
+						FB.api('/me?fields=id,name,email', function(response) {
+							if(response.email == false){
+								$('#status').html("Something went wrong, email unavailable.");
+							}else{
+								fbSubscribe(response);
+							};	
+					    });
+				    },{scope: 'email'});
+				});
+			});
+
+	    function fbSubscribe(response){
+			$.get("MailChimp.php?usermail="+response.email,function(response){
+				var parsed = JSON.parse(response);
+				$('#status').html(parsed.message);
+			});
+	    };
+	</script>
+	
+	<div id="container">
+		<form action="" method="GET" id="directsub">
+			<input type="text" placeholder="email address" name="usermail" id="usermail">
+			<input type="submit" value="Subscribe with your email" id="submit"></br>
+		</form>
+		<p>OR</p>
+		<button type="button" id="fbSignup">Subscribe with facebook</button>
+		<p id="status"></p>
+	</div>
+	
+</body>
+</html>
