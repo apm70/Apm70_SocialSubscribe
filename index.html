@@ -2,7 +2,7 @@
 <html>
 <head>
 	<meta charset="utf-8">
-	<title>Subscribe</title>
+	<title>Apm70 - Social Subscribe</title>
 	<link rel="stylesheet" href="css/style.css">
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
 	<script type="text/javascript">
@@ -17,16 +17,20 @@
 			$("#directsub").on("submit",function(e){
 				e.preventDefault();
 				var useremail = $('#usermail').val();
-				ValidateEmail(usermail);	
+				if (validateEmail(useremail) === true) {
+					formSignup(useremail.value);
+				} else {
+					$('#status').html("You enetered incorrect email.");
+				}
 		    });
 		});
 
-		function ValidateEmail(userEntry){  
+		function validateEmail(userEntry){  
 			var mailformat = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;  
 			if(userEntry.value.match(mailformat)){  
-				formSignup(userEntry.value);
-			}else{  
-			$('#status').html("You enetered incorrect email.");
+				return true;
+			} else {  
+				return false;
 			};  
 		};  
 	</script>
@@ -35,15 +39,15 @@
 
 <body>
 	<script>
-		var fbAppId = "insert your facebook app id here";
+		var fbAppId = "" // insert your facebook app id here";
 	    window.fbAsyncInit = function() {
-		FB.init({
-		  appId      : fbAppId,
-		  xfbml      : true,
-		  version    : 'v2.8'
-		});
+			FB.init({
+			  appId      : fbAppId,
+			  xfbml      : true,
+			  version    : 'v2.8'
+			});
 
-		FB.AppEvents.logPageView();
+			FB.AppEvents.logPageView();
 	    };
 
 	    (function(d, s, id){
@@ -54,19 +58,19 @@
 		 fjs.parentNode.insertBefore(js, fjs);
 	    }(document, 'script', 'facebook-jssdk'));
 	
-			$(document).ready(function(){
-				$("#fbSignup").on("click",function(){
-				    FB.login(function(response){
-						FB.api('/me?fields=id,name,email', function(response) {
-							if(response.email == false){
-								$('#status').html("Something went wrong, email unavailable.");
-							}else{
-								fbSubscribe(response);
-							};	
-					    });
-				    },{scope: 'email'});
-				});
+		$(document).ready(function(){
+			$("#fbSignup").on("click",function(){
+				FB.login(function(response){
+					FB.api('/me?fields=id,name,email', function(response) {
+						if(response.email == false){
+							$('#status').html("Something went wrong, email unavailable.");
+						}else{
+							fbSubscribe(response);
+						};	
+					});
+				},{scope: 'email'});
 			});
+		});
 
 	    function fbSubscribe(response){
 			$.get("MailChimp.php?usermail="+response.email,function(response){

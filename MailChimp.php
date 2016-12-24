@@ -324,15 +324,19 @@ class MailChimp
         return 418;
     }
 }
+
+$mailChimpApiKey = "" // insert your mailchimp api key here
+$mailChimpListId = "" // insert your mailchimp list id here
+	
 if(isset($_GET['usermail'])){
-	$mailChimpApiKey = "insert your mailchimp api key here";
-	$mailChimpListId = "insert your mailchimp list id here";
+	
 	$mailChimp = new MailChimp($mailChimpApiKey);
 	$usermail = ($_GET['usermail']);
 	$user = $mailChimp->subscriberHash($usermail);
 
 	$metodurl = "lists/" . $mailChimpListId . "/members/" . $user;
-	$mailChimp->put($metodurl,array('email_address'=>$usermail, 'status'=>'subscribed'), $timeout =10);
-	$json = array("message"=>"Congrats, you have just signed up!");
+	$mailChimp->put($metodurl,array('email_address' => $usermail, 'status' => 'subscribed'), $timeout =10);
+	$json = array("message" => "Congrats, you have just signed up!");
+	
 	echo json_encode($json);
 }
