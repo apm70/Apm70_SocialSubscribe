@@ -11,14 +11,14 @@
 				var parsed = JSON.parse(response);
 				$('#status').html(parsed.message);
 			});
-		}
+		};
 		
 		$(document).ready(function(){
 			$("#directsub").on("submit",function(e){
 				e.preventDefault();
 				var useremail = $('#usermail').val();
 				if (validateEmail(useremail) === true) {
-					formSignup(useremail.value);
+					formSignup(usermail.value);
 				} else {
 					$('#status').html("You enetered incorrect email.");
 				}
@@ -27,12 +27,8 @@
 
 		function validateEmail(userEntry){  
 			var mailformat = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;  
-			if(userEntry.value.match(mailformat)){  
-				return true;
-			} else {  
-				return false;
-			};  
-		};  
+			return mailformat.test(userEntry);
+		};
 	</script>
 </head>
 
