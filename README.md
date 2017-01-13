@@ -9,7 +9,7 @@ A: Use it as it is now and you will get blank white page with one field to enter
 Q: How it works?<br>
 A: When email address is entered into email field and "subscribe with your email" button is pressed email address entered will be validated and delivered to mailchimp.php using ajax call. Communication with mailchimp api is executed using mailchimp class found here: https://github.com/drewm/mailchimp-api. After email address is added to the list return message will be sent back and displayed.<br>
 
-Clicking "subscribe with facebook" button will trigger facebook pop up window and ask for permissions. After permissions are granted email is retrieved and handled with same logic as described above.<br><br>
+Clicking "subscribe with facebook" button will trigger facebook pop up window and ask for permissions. After permissions are granted email is retrieved from facebook profile and handled with same logic as described above.<br><br>
 
 Q: Is it all set?<br>
 A: To make it work you will need to:<br>
